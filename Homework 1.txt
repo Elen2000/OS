@@ -1,0 +1,31 @@
+//Написать программу, который из командной строки получает целое число N 
+//и некоторый текст “Text”. Как результат программа должен создать N файлов
+//(file_1.txt, …, file_N.txt) в каждом из которых написан, “Hello world I”, 
+//где значение I совпадает с значением номера файла.
+
+
+#include <stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include <sys/stat.h>
+#include<fcntl.h>
+#include <string.h>
+
+int main(void) {
+    
+  int N;
+  scanf("%d", &N);  //считает целое число и присвоивает его значение переменной N
+  while(N != 0)
+  {
+    char p[40];
+    snprintf(p, 40, "file_%d.txt", N);
+    creat(p, O_WRONLY);  //Open for writing only.
+    int str_open = open (p, O_WRONLY);
+    
+    char text[40]; 
+    snprintf(text, 40, "Hello world%d", N);
+    write(str_open, text, 40);
+    close(str_open);
+    N--;
+  }
+}
